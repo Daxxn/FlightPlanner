@@ -1,6 +1,8 @@
-﻿using MVVMLibrary;
+﻿using JsonReaderLibrary;
+using MVVMLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace PlateModelLibrary
@@ -20,9 +22,12 @@ namespace PlateModelLibrary
       #endregion
 
       #region - Methods
-      public static void OnStartup()
+      public static void OnStartup(string airportDataPath)
       {
-
+         if (File.Exists(airportDataPath))
+         {
+            AllAirportData = JsonReader.OpenJsonFile<List<AirportData>>(airportDataPath);
+         }
       }
       #endregion
 

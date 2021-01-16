@@ -1,5 +1,6 @@
 ﻿using FlightPlannerWPF.ViewModels;
 using Microsoft.Extensions.Configuration;
+using PlateModelLibrary;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,7 +26,10 @@ namespace FlightPlannerWPF
       }
       protected override void OnStartup(StartupEventArgs e)
       {
-         var mainView = new MainWindow(new MainViewModel(BuildConfig()));
+         var config = BuildConfig();
+         var mainView = new MainWindow(new MainViewModel(config));
+         AirportData.OnStartup(config.GetValue<string>("AirportDataFilePath"));
+         PlateFinder.OnStartup(config.GetValue<string>("AirportPlateRootPath"));
          mainView.Show();
       }
    }

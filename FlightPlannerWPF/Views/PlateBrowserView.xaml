@@ -15,21 +15,68 @@
         </Grid.ColumnDefinitions>
 
         <Border Grid.Column="0">
-            
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border>
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="10">Testing Only!!!</TextBlock>
+                        <Button Command="{Binding Path=FindPlatesTestCmd}">Find Plates Test</Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Border>
 
         <Border Grid.Column="1">
-            <ListBox ItemsSource="{Binding Path=PlateList}">
+            <ListBox ItemsSource="{Binding Path=PlateList}" Grid.IsSharedSizeScope="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border>
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding Path=Name}"/>
-                                <Image Source="{Binding Path=Image}"/>
+                                <Expander Grid.Row="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="titleA"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition SharedSizeGroup="titleB"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">Airport Code</TextBlock>
+                                        <TextBlock Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=AirportData.FullCode}"/>
+                                        
+                                        <TextBlock Grid.Row="1" Grid.Column="0">City, State</TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=AirportData.CityState}"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="0">Other</TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=AirportData.Other}"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="0">Region Code</TextBlock>
+                                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=MetaData.RegionCode}"/>
+                                        
+                                        <TextBlock Grid.Row="1" Grid.Column="2">Plate Type</TextBlock>
+                                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Path=MetaData.PlateType}"/>
+                                        <TextBlock Grid.Row="2" Grid.Column="2">Approach Type</TextBlock>
+                                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=MetaData.PlateData}"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="2">Approach Option</TextBlock>
+                                        <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Path=MetaData.ApproachOption}"/>
+
+                                        <TextBlock Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">Other</TextBlock>
+                                        <TextBlock Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Path=MetaData.Other}"/>
+                                    </Grid>
+                                </Expander>
+                                <Image MinWidth="500" MinHeight="500" Grid.Row="1" Source="{Binding Path=PlateUri}"/>
                             </Grid>
                         </Border>
                     </DataTemplate>

@@ -7,6 +7,7 @@ namespace PlateModelLibrary
    {
       #region - Fields & Properties
       private AirportData _airportData;
+      private PlateMetaData _metaData;
       private Uri _plateUri;
       #endregion
 
@@ -26,6 +27,12 @@ namespace PlateModelLibrary
          AirportData = airport;
          PlateUri = uri;
       }
+      public Plate(AirportData airport, PlateMetaData metaData, Uri uri)
+      {
+         AirportData = airport;
+         MetaData = metaData;
+         PlateUri = uri;
+      }
       #endregion
 
       #region - Methods
@@ -39,6 +46,16 @@ namespace PlateModelLibrary
          set
          {
             _airportData = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public PlateMetaData MetaData
+      {
+         get { return _metaData; }
+         set
+         {
+            _metaData = value;
             OnPropertyChanged();
          }
       }

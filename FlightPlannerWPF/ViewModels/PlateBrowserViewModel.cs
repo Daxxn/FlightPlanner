@@ -14,11 +14,18 @@ namespace FlightPlannerWPF.ViewModels
       private readonly IConfiguration Config = MainViewModel.Config;
       private ObservableCollection<Plate> _plateList;
 
+      #region Commands
+      public Command FindPlatesTestCmd { get; set; }
+      #endregion
+
       #endregion
 
       #region - Constructors
       public PlateBrowserViewModel()
       {
+         #region Command Init
+         FindPlatesTestCmd = new Command(FindPlatesTest);
+         #endregion
          //PlateList = new ObservableCollection<Plate>
          //{
          //   new Plate
@@ -36,7 +43,16 @@ namespace FlightPlannerWPF.ViewModels
       #endregion
 
       #region - Methods
-
+      public void FindPlatesTest(object p)
+      {
+         var testAirport = new AirportData
+         {
+            IATACode = "ABE",
+            CountryCode = "K",
+            CityState = "Allentown, Pennsylvania"
+         };
+         PlateList = new ObservableCollection<Plate>(PlateFinder.FindPlates(testAirport));
+      }
       #endregion
 
       #region - Full Properties
