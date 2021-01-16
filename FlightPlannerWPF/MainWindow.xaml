@@ -23,6 +23,9 @@
             <TabItem Header="Knee Board">
                 <views:KneeboardView/>
             </TabItem>
+            <TabItem Header="Plate Browser">
+                <views:PlateBrowserView/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

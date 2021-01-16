@@ -15,13 +15,13 @@ using System.Windows.Shapes;
 namespace FlightPlannerWPF.Views
 {
    /// <summary>
-   /// Interaction logic for KneeboardView.xaml
+   /// Interaction logic for PlateBrowserView.xaml
    /// </summary>
-   public partial class KneeboardView : UserControl
+   public partial class PlateBrowserView : UserControl
    {
-      public KneeboardView()
+      public PlateBrowserView()
       {
-         DataContext = new KneeboardViewModel();
+         DataContext = new PlateBrowserViewModel();
          InitializeComponent();
       }
    }

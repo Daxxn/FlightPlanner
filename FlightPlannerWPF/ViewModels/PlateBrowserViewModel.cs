@@ -5,14 +5,14 @@ using System.Text;
 
 namespace FlightPlannerWPF.ViewModels
 {
-   public class KneeboardViewModel : ViewModel
+   public class PlateBrowserViewModel : ViewModel
    {
       #region - Fields & Properties
 
       #endregion
 
       #region - Constructors
-      public KneeboardViewModel() { }
+      public PlateBrowserViewModel() { }
       #endregion
 
       #region - Methods
