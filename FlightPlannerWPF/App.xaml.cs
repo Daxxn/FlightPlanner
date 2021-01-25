@@ -27,9 +27,9 @@ namespace FlightPlannerWPF
       protected override void OnStartup(StartupEventArgs e)
       {
          var config = BuildConfig();
-         var mainView = new MainWindow(new MainViewModel(config));
          AirportData.OnStartup(config.GetValue<string>("AirportDataFilePath"));
-         PlateFinder.OnStartup(config.GetValue<string>("AirportPlateRootPath"));
+         Plate.OnStartup(config.GetValue<string>("PlatesFilePath"));
+         var mainView = new MainWindow(new MainViewModel(config));
          mainView.Show();
       }
    }

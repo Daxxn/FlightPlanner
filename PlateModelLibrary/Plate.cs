@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using JsonReaderLibrary;
 using MVVMLibrary;
 
 namespace PlateModelLibrary
@@ -6,66 +8,124 @@ namespace PlateModelLibrary
    public class Plate : Model
    {
       #region - Fields & Properties
-      private AirportData _airportData;
-      private PlateMetaData _metaData;
-      private Uri _plateUri;
+      public static List<Plate> AllPlates { get; private set; }
+      private string _IATACode;
+      private PlateType _type;
+      private string _regionCode;
+      private string _approachType;
+      private string _name;
+      private string _runway;
+      private string _approachOption;
+      private string _other;
+      private string _plateFile;
       #endregion
 
       #region - Constructors
       public Plate() { }
-      public Plate(string apCode, string countryCode, string url)
-      {
-         AirportData = new AirportData
-         {
-            IATACode = apCode,
-            CountryCode = countryCode,
-         };
-         PlateUri = new Uri(url);
-      }
-      public Plate(AirportData airport, Uri uri)
-      {
-         AirportData = airport;
-         PlateUri = uri;
-      }
-      public Plate(AirportData airport, PlateMetaData metaData, Uri uri)
-      {
-         AirportData = airport;
-         MetaData = metaData;
-         PlateUri = uri;
-      }
       #endregion
 
       #region - Methods
-
+      public static void OnStartup(string platesFilePath)
+      {
+         try
+         {
+            AllPlates = JsonReader.OpenJsonFile<List<Plate>>(platesFilePath);
+         }
+         catch (Exception)
+         {
+            throw;
+         }
+      }
       #endregion
 
       #region - Full Properties
-      public AirportData AirportData
+
+      public string IATACode
       {
-         get { return _airportData; }
+         get { return _IATACode; }
          set
          {
-            _airportData = value;
+            _IATACode = value;
             OnPropertyChanged();
          }
       }
 
-      public PlateMetaData MetaData
+      public PlateType Type
       {
-         get { return _metaData; }
+         get { return _type; }
          set
          {
-            _metaData = value;
+            _type = value;
             OnPropertyChanged();
          }
       }
 
-      public Uri PlateUri
+      public string RegionCode
       {
-         get { return _plateUri; }
+         get { return _regionCode; }
          set
          {
-            _plateUri = value;
+            _regionCode = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string ApproachType
+      {
+         get { return _approachType; }
+         set
+         {
+            _approachType = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string Name
+      {
+         get { return _name; }
+         set
+         {
+            _name = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string Runway
+      {
+         get { return _runway; }
+         set
+         {
+            _runway = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string ApproachOption
+      {
+         get { return _approachOption; }
+         set
+         {
+            _approachOption = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string Other
+      {
+         get { return _other; }
+         set
+         {
+            _other = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string PlateFile
+      {
+         get { return _plateFile; }
+         set
+         {
+            _plateFile = value;
             OnPropertyChanged();
          }
       }

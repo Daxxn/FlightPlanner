@@ -19,7 +19,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Button Command="{Binding Path=OpenTestCmd}">Open Test</Button>
+                <Button Command="{Binding Path=OpenTestCmd}">Open MS Flight Plan</Button>
 
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <TextBlock Text="{Binding Path=CurrentFilePath}"/>

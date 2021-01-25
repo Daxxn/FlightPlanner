@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MVVMLibrary;
+using PlateModelLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -16,6 +17,8 @@ namespace FlightPlannerWPF.ViewModels
       public MainViewModel(IConfiguration config)
       {
          Config = config;
+
+
       }
       #endregion
 

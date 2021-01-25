@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MVVMLibrary;
+using PlateEditorWPF.Models;
 using PlateModelLibrary;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,14 @@ namespace FlightPlannerWPF.ViewModels
    {
       #region - Fields & Properties
       private readonly IConfiguration Config = MainViewModel.Config;
-      private ObservableCollection<Plate> _plateList;
+
+      private Page<Plate> _page;
+      private Plate _selectedPlate;
+      private int _imageSize;
 
       #region Commands
-      public Command FindPlatesTestCmd { get; set; }
+      public Command PrevPageCmd { get; private set; }
+      public Command NextPageCmd { get; private set; }
       #endregion
 
       #endregion
@@ -23,50 +28,62 @@ namespace FlightPlannerWPF.ViewModels
       #region - Constructors
       public PlateBrowserViewModel()
       {
+         if (Plate.AllPlates != null)
+         {
+            PlatePage = new Page<Plate>(10, Plate.AllPlates);
+         }
          #region Command Init
-         FindPlatesTestCmd = new Command(FindPlatesTest);
+         PrevPageCmd = new Command(PrevPage);
+         NextPageCmd = new Command(NextPage);
          #endregion
-         //PlateList = new ObservableCollection<Plate>
-         //{
-         //   new Plate
-         //   {
-         //      AirportData = new AirportData
-         //      {
-         //         IATACode = "ABE",
-         //         CityState = "Allentown, Pennsylvania",
-         //         CountryCode = "K"
-         //      },
-         //      PlateUri = new Uri(@""),
-         //   }
-         //};
       }
       #endregion
 
       #region - Methods
-      public void FindPlatesTest(object p)
+      private void PrevPage(object p)
       {
-         var testAirport = new AirportData
-         {
-            IATACode = "ABE",
-            CountryCode = "K",
-            CityState = "Allentown, Pennsylvania"
-         };
-         PlateList = new ObservableCollection<Plate>(PlateFinder.FindPlates(testAirport));
+         PlatePage.PrevPage();
+         SelectedPlate = PlatePage.PageData[0];
+      }
+
+      private void NextPage(object p)
+      {
+         PlatePage.NextPage();
+         SelectedPlate = PlatePage.PageData[0];
       }
       #endregion
 
       #region - Full Properties
 
-      public ObservableCollection<Plate> PlateList
+      public Page<Plate> PlatePage
       {
-         get { return _plateList; }
+         get { return _page; }
          set
          {
-            _plateList = value;
+            _page = value;
             OnPropertyChanged();
          }
       }
 
+      public Plate SelectedPlate
+      {
+         get { return _selectedPlate; }
+         set
+         {
+            _selectedPlate = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public int ImageSize
+      {
+         get { return _imageSize; }
+         set
+         {
+            _imageSize = value;
+            OnPropertyChanged();
+         }
+      }
       #endregion
    }
 }

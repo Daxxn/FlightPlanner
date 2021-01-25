@@ -19,18 +19,118 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="200"/>
                 </Grid.RowDefinitions>
 
-                <Border>
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock FontSize="10">Testing Only!!!</TextBlock>
-                        <Button Command="{Binding Path=FindPlatesTestCmd}">Find Plates Test</Button>
-                    </StackPanel>
+                <Border Grid.Row="0">
                 </Border>
+
+                <Slider
+                    ToolTip="Image Size Adjust"
+                    Grid.Row="3"
+                    x:Name="ImageSizeSlider"
+                    Maximum="800"
+                    Minimum="50"
+                    TickFrequency="10"
+                    TickPlacement="TopLeft"
+                    AutoToolTipPlacement="BottomRight"
+                    Orientation="Vertical"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding Path=ImageSize, UpdateSourceTrigger=PropertyChanged}"
+                />
             </Grid>
         </Border>
 
         <Border Grid.Column="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Slider
+                    Grid.Row="0"
+                    Maximum="40"
+                    Minimum="4"
+                    TickFrequency="2"
+                    IsSnapToTickEnabled="True"
+                    Value="{Binding Path=PlatePage.PageSize}"
+                />
+                <ListBox
+                    Grid.Row="1"
+                    x:Name="PlatePageBox"
+                    ItemsSource="{Binding Path=PlatePage.PageData}"
+                    SelectedItem="{Binding Path=SelectedPlate}"
+                    SelectionMode="Single"
+                >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Width="2000"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Expander Header="{Binding Path=IATACode}">
+                                        <Grid Grid.IsSharedSizeScope="True">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition SharedSizeGroup="A"/>
+                                                <ColumnDefinition SharedSizeGroup="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Path=Type}"/>
+                                            
+                                            <TextBlock Grid.Row="1" Grid.Column="0">Region</TextBlock>
+                                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=RegionCode}"/>
+
+                                            <TextBlock Grid.Row="2" Grid.Column="0">Appr Type</TextBlock>
+                                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=ApproachType}"/>
+
+                                            <TextBlock Grid.Row="3" Grid.Column="0">Runway</TextBlock>
+                                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=Runway}"/>
+                                        </Grid>
+                                    </Expander>
+                                    <Image Grid.Row="1" Width="{Binding ElementName=ImageSizeSlider, Path=Value, Mode=OneWay}" Source="{Binding Path=PlateFile}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                
+                <Border Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Command="{Binding Path=PrevPageCmd}" Grid.Column="0">
+                            Prev Page
+                        </Button>
+
+                        <Button Command="{Binding Path=NextPageCmd}" Grid.Column="1">
+                            Next Page
+                        </Button>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        
+        <!--OLD-->
+        <!--<Border Grid.Column="1">
             <ListBox ItemsSource="{Binding Path=PlateList}" Grid.IsSharedSizeScope="True">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
@@ -82,6 +182,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </Border>
+        </Border>-->
     </Grid>
 </UserControl>
