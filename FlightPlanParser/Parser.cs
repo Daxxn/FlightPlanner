@@ -3,7 +3,7 @@ using System.Xml.XPath;
 
 namespace FlightPlanParser
 {
-   public class FlightPlanParser
+   public class Parser
    {
       public static FlightPlan OpenFlightPlanFile(string path)
       {

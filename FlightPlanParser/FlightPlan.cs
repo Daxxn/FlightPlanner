@@ -1,10 +1,12 @@
-﻿using System;
+﻿using MVVMLibrary;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace FlightPlanParser
 {
-   public class FlightPlan
+   public class FlightPlan : Model
    {
       #region - Fields & Properties
       public string Title { get; set; }
@@ -13,7 +15,7 @@ namespace FlightPlanParser
       public double CruisingAlt { get; set; }
       public string DepartureID { get; set; }
       public string DestinationID { get; set; }
-      public List<ATCWaypoint> Waypoints { get; set; } = new List<ATCWaypoint>();
+      public ObservableCollection<ATCWaypoint> _waypoints = new ObservableCollection<ATCWaypoint>();
       #endregion
 
       #region - Constructors
@@ -36,10 +38,45 @@ namespace FlightPlanParser
          }
          return sb.ToString();
       }
+
+      private string GetIATACode(string id)
+      {
+         if (String.IsNullOrEmpty(id)) return null;
+
+         if (id.Length == 4 && id[0] == 'K')
+         {
+            return id.TrimStart('K');
+         }
+
+         return id;
+      }
       #endregion
 
       #region - Full Properties
+      public ObservableCollection<ATCWaypoint> Waypoints
+      {
+         get { return _waypoints; }
+         set
+         {
+            _waypoints = value;
+            OnPropertyChanged();
+         }
+      }
+      public string DepartureIATA
+      {
+         get
+         {
+            return GetIATACode(DepartureID);
+         }
+      }
 
+      public string DestinationIATA
+      {
+         get
+         {
+            return GetIATACode(DestinationID);
+         }
+      }
       #endregion
    }
 }

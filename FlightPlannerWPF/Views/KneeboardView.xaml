@@ -4,10 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightPlannerWPF.Views"
+             xmlns:controls="clr-namespace:FlightPlannerWPF.Controls"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
@@ -19,12 +21,102 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Button Command="{Binding Path=OpenTestCmd}">Open MS Flight Plan</Button>
+                <Button Command="{Binding Path=OpenFlightPlanCmd}">Open MS Flight Plan</Button>
 
-                <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <TextBlock Text="{Binding Path=CurrentFilePath}"/>
-                    <TextBlock Text="{Binding Path=CurrentFileName}"/>
-                </StackPanel>
+                <TextBlock Grid.Row="1" Text="{Binding Path=CurrentFileName}"/>
+            </Grid>
+        </Border>
+
+        <Expander ExpandDirection="Right" Grid.Column="1">
+            <Border BorderBrush="Blue" BorderThickness="2">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="A"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.ColumnSpan="2" Text="{Binding Path=FlightPlan.Title}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Padding="0,0,10,0">Rule Type</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=FlightPlan.FPType}"/>
+                    </Grid>
+
+                    <Border Grid.Row="1" Padding="0,10,0,0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0">Waypoints</TextBlock>
+                            <ListView Grid.Row="1" x:Name="FlightPlanList" ItemsSource="{Binding Path=FlightPlan.Waypoints}">
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Vertical"/>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="{Binding Path=ICAO.ICAOIdent}"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Border>
+        </Expander>
+
+        <Border Grid.Column="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <controls:PlateList
+                    Grid.Row="0"
+                    Title="All Plates"
+                    Plates="{Binding Path=KneeBoard.Plates}"
+                    SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                />
+
+                <controls:PlateList
+                    Grid.Row="0"
+                    Title="Flight Plan"
+                    Plates="{Binding Path=KneeBoard.Plates}"
+                    SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                />
+
+                <Image Grid.Row="1" Name="SelectedPlateImage" Stretch="Uniform"/>
+
+                <Border Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Command="{Binding Path=PrevPlate}">Prev</Button>
+                        <Button Grid.Column="1" Command="{Binding Path=NextPlate}">Next</Button>
+                    </Grid>
+                </Border>
             </Grid>
         </Border>
     </Grid>

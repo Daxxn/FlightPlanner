@@ -1,4 +1,5 @@
-﻿using FlightPlannerWPF.ViewModels;
+﻿using FlightPlannerWPF.Events;
+using FlightPlannerWPF.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,8 +22,22 @@ namespace FlightPlannerWPF.Views
    {
       public KneeboardView()
       {
-         DataContext = new KneeboardViewModel();
+         var VM = new KneeboardViewModel();
+         DataContext = VM;
+         VM.UpdateImage += UpdateImageEvent;
          InitializeComponent();
+      }
+
+      private void UpdateImageEvent(object sender, ImageUpdateEventArgs e)
+      {
+         if (!String.IsNullOrEmpty(e.ImagePath))
+         {
+            SelectedPlateImage.Source = new BitmapImage(new Uri(e.ImagePath));
+         }
+         else
+         {
+            SelectedPlateImage.Source = null;
+         }
       }
    }
 }
