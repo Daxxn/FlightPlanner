@@ -4,9 +4,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightPlannerWPF.Controls"
+             xmlns:converters="clr-namespace:FlightPlannerWPF.Converters"
              mc:Ignorable="d"
              x:Name="root">
-    <Border>
+    <UserControl.Resources>
+        <converters:SpeedConverter x:Key="SpeedConverter"/>
+        <converters:AltitudeConverter x:Key="AltConvterter"/>
+        <converters:AltitudeDescConverter x:Key="AltDescConverter"/>
+
+        <!--#region Styles-->
+        <Style TargetType="TextBlock" x:Key="TitleBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+        </Style>
+        <!--#endregion-->
+    </UserControl.Resources>
+    <Border Padding="6" BorderThickness="1" BorderBrush="Blue">
         <Grid Grid.IsSharedSizeScope="True">
             <Grid Style="{DynamicResource IsArrival}">
                 <Grid.ColumnDefinitions>
@@ -23,18 +37,18 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.ColumnSpan="2">Arrival</TextBlock>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleBlock}">Arrival</TextBlock>
 
                 <TextBlock Grid.Row="1">Name</TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ArrivalFP}"/>
                 <TextBlock Grid.Row="2">ICAO ID</TextBlock>
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ICAO.ICAOIdent}"/>
                 <TextBlock Grid.Row="3">Max Speed</TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.SpeedMaxFP}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.SpeedMaxFP, Converter={StaticResource SpeedConverter}}"/>
                 <TextBlock Grid.Row="4">Max Alt</TextBlock>
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.Alt1FP}"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.Alt1FP, Converter={StaticResource AltConvterter}}"/>
                 <TextBlock Grid.Row="5" ToolTip="Altitude Instruction">Alt Inst</TextBlock>
-                <TextBlock Grid.Row="5" Grid.Column="1" ToolTip="Altitude Instruction" Text="{Binding ElementName=root, Path=Waypoint.AltDescFP}"/>
+                <TextBlock Grid.Row="5" Grid.Column="1" ToolTip="Altitude Instruction" Text="{Binding ElementName=root, Path=Waypoint.AltDescFP, Converter={StaticResource AltDescConverter}}"/>
             </Grid>
 
             <Grid Style="{DynamicResource IsDeparture}">
@@ -51,18 +65,18 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.ColumnSpan="2">Arrival</TextBlock>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleBlock}">Arrival</TextBlock>
 
                 <TextBlock Grid.Row="1">Name</TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.DepartureFP}"/>
                 <TextBlock Grid.Row="2">ICAO ID</TextBlock>
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ICAO.ICAOIdent}"/>
                 <TextBlock Grid.Row="3">Max Speed</TextBlock>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.SpeedMaxFP}"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.SpeedMaxFP, Converter={StaticResource SpeedConverter}}"/>
                 <TextBlock Grid.Row="4">Max Alt</TextBlock>
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.Alt1FP}"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.Alt1FP, Converter={StaticResource AltConvterter}}"/>
                 <TextBlock Grid.Row="5" ToolTip="Altitude Instruction">Alt Inst</TextBlock>
-                <TextBlock Grid.Row="5" Grid.Column="1" ToolTip="Altitude Instruction" Text="{Binding ElementName=root, Path=Waypoint.AltDescFP}"/>
+                <TextBlock Grid.Row="5" Grid.Column="1" ToolTip="Altitude Instruction" Text="{Binding ElementName=root, Path=Waypoint.AltDescFP, Converter={StaticResource AltDescConverter}}"/>
             </Grid>
 
             <Grid Style="{DynamicResource IsAirport}">
@@ -78,7 +92,7 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0" Grid.ColumnSpan="2">Airport</TextBlock>
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource TitleBlock}">Airport</TextBlock>
 
                 <TextBlock Grid.Row="1">ID</TextBlock>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ICAO.ICAOIdent}"/>
@@ -90,6 +104,7 @@
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.RunwayDesignatorFP}"/>
             </Grid>
 
+            <!--Type switching controls-->
             <Grid.Resources>
                 <Style TargetType="Grid" x:Key="IsArrival">
                     <Setter Property="Visibility" Value="Hidden"/>

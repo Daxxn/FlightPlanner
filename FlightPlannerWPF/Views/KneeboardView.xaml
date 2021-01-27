@@ -5,29 +5,44 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightPlannerWPF.Views"
              xmlns:controls="clr-namespace:FlightPlannerWPF.Controls"
+             xmlns:converters="clr-namespace:FlightPlannerWPF.Converters"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:WaypointConverter x:Key="WPConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Border Grid.Column="0">
+        <Border Grid.Column="0" Grid.ColumnSpan="3">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
                 <Button Command="{Binding Path=OpenFlightPlanCmd}">Open MS Flight Plan</Button>
 
-                <TextBlock Grid.Row="1" Text="{Binding Path=CurrentFileName}"/>
+                <TextBlock Padding="10,0,0,0" Grid.Column="1" Text="{Binding Path=CurrentFileName}"/>
             </Grid>
         </Border>
 
-        <Expander ExpandDirection="Right" Grid.Column="1">
+        <Expander ExpandDirection="Right" Grid.Column="0" Grid.Row="1">
+            <Expander.Header>
+                <TextBlock>
+                    <TextBlock.LayoutTransform>
+                        <RotateTransform Angle="270"/>
+                    </TextBlock.LayoutTransform>
+                    Waypoints
+                </TextBlock>
+            </Expander.Header>
             <Border BorderBrush="Blue" BorderThickness="2">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -46,11 +61,19 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.ColumnSpan="2" Text="{Binding Path=FlightPlan.Title}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Padding="0,0,10,0">Rule Type</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=FlightPlan.FPType}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="0">Departing</TextBlock>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=FlightPlan.DepartureID}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0">Arriving</TextBlock>
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=FlightPlan.DestinationID}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0">Departure STAR</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=FlightPlan.DepartureName}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0">Arrival STAR</TextBlock>
+                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=FlightPlan.ArrivalName}"/>
+                        <TextBlock Grid.Row="4" Grid.Column="0" Padding="0,0,10,0">Rule Type</TextBlock>
+                        <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=FlightPlan.FPType}"/>
                     </Grid>
 
                     <Border Grid.Row="1" Padding="0,10,0,0">
@@ -78,7 +101,7 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <TextBlock Text="{Binding Path=ICAO.ICAOIdent}"/>
+                                            <TextBlock Text="{Binding Path=ICAO.ICAOIdent, Converter={StaticResource WPConverter}}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -91,23 +114,24 @@
             </Border>
         </Expander>
 
-        <Border Grid.Column="2">
+        <Border Grid.Column="1" Grid.Row="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <!--<RowDefinition Height="5"/>-->
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="5"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <controls:PlateList
                     Grid.Row="0"
                     Title="All Plates"
+                    StartExpanded="True"
                     Plates="{Binding Path=KneeBoard.Plates}"
                     SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 />
+                
+                <!--<GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
 
                 <Border Grid.Row="1">
                     <Grid>
@@ -133,27 +157,55 @@
                     </Grid>
                 </Border>
 
-                <controls:PlateList
+                <!--<controls:PlateList
                     Grid.Row="2"
                     Title="Custom Plates"
                     Plates="{Binding Path=KneeBoard.CustomPlateList}"
                     SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                />
+                />-->
 
-                <GridSplitter Grid.Row="3" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
-                <Image Grid.Row="4" Name="SelectedPlateImage" Stretch="Uniform"/>
-
-                <Border Grid.Row="5">
+                <Border Grid.Row="2">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Button Command="{Binding Path=PrevPlate}">Prev</Button>
-                        <Button Grid.Column="1" Command="{Binding Path=NextPlate}">Next</Button>
+                        <ListView
+                            x:Name="CustomPlateList"
+                            AllowDrop="True"
+                            ItemsSource="{Binding Path=KneeBoard.CustomPlateList}"
+                            SelectedItem="{Binding Path=SelectedPlate}"
+                        >
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Image
+                                        Grid.Row="2"
+                                        Source="{Binding Path=PlateFile}"
+                                        Height="{Binding ElementName=CustomPlateList, Path=ActualHeight}"
+                                    />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        
+                        <GridSplitter Grid.Column="1" ResizeDirection="Columns" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                        <Grid Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Image Name="SelectedPlateImage" Stretch="Uniform" RenderTransformOrigin="0.5,0.5"/>
+                            <Button Grid.Row="1" Click="FlipPlate_Click">Rotate</Button>
+                        </Grid>
                     </Grid>
                 </Border>
+
             </Grid>
         </Border>
     </Grid>

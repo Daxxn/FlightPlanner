@@ -11,20 +11,11 @@ namespace PlateModelLibrary
    public class KneeBoard : Model
    {
       #region - Fields & Properties
-      private static List<char> letters = new List<char>
-      {
-         'a', 'b', 'c', 'd', 'e', 'f', 'g',
-         'h', 'i', 'j', 'k', 'l', 'm', 'n',
-         'o', 'p', 'q', 'r', 's', 't', 'u',
-         'v', 'w', 'x', 'y', 'z',
-      };
-
       private Plate _departureAirport;
       private Plate _destinationAirport;
       private List<Plate> _arrival;
       private List<Plate> _departure;
       private ObservableCollection<Plate> _plates;
-      private ObservableCollection<Plate> _flightPlanPlates;
       private ObservableCollection<Plate> _customPlateList;
       #endregion
 
@@ -61,32 +52,18 @@ namespace PlateModelLibrary
                {
                   if (wp.DepartureFP != null && wp.ArrivalFP == null)
                   {
-                     newKneeboard.DeparturePlates = newKneeboard.Plates.Where(plate => CompareNames(plate.Name, wp.DepartureFP) && plate.Type == PlateType.ArrivalDeparture).ToList();
-                     //newKneeboard.DeparturePlates = newKneeboard.Plates.Where(plate => plate.Name == wp.DepartureFP).ToList();
-                     //newKneeboard.DeparturePlates = FindPlatesByDepArr(wp.DepartureFP);
+                     newKneeboard.DeparturePlates = newKneeboard.Plates.Where(
+                        plate => CompareNames(plate.Name, wp.DepartureFP)
+                        && plate.Type == PlateType.ArrivalDeparture
+                     ).ToList();
                   }
                   else if (wp.DepartureFP == null && wp.ArrivalFP != null)
                   {
                      newKneeboard.ArrivalPlates = newKneeboard.Plates.Where(plate => plate.Name == wp.ArrivalFP).ToList();
-                     //newKneeboard.ArrivalPlates = FindPlatesByDepArr(wp.ArrivalFP);
                   }
                }
             }
          }
-
-         //List<string> foundICAOCodes = new List<string>();
-         //foreach (var wp in flightPlan.Waypoints)
-         //{
-         //   if (wp.ICAO != null && !foundICAOCodes.Contains(wp.ICAO.ICAOIdent))
-         //   {
-         //      foundICAOCodes.Add(wp.ICAO.ICAOIdent);
-         //   }
-         //}
-
-         //foreach (var code in foundICAOCodes)
-         //{
-         //   newKneeboard.Plates.Add(FindPlate(code));
-         //}
 
          return newKneeboard;
       }
@@ -239,16 +216,6 @@ namespace PlateModelLibrary
             OnPropertyChanged();
          }
       }
-
-      //public ObservableCollection<Plate> FlightPlanPlates
-      //{
-      //   get { return _flightPlanPlates; }
-      //   set
-      //   {
-      //      _flightPlanPlates = value;
-      //      OnPropertyChanged();
-      //   }
-      //}
 
       public ObservableCollection<Plate> FlightPlanPlates
       {

@@ -7,6 +7,7 @@
              mc:Ignorable="d"
              x:Name="root">
     <Expander
+        IsExpanded="{Binding ElementName=root, Path=StartExpanded}"
         Header="{Binding ElementName=root, Path=Title}"
         ExpandDirection="{Binding ElementName=root, Path=ExpandDirection}"
     >
@@ -20,7 +21,7 @@
                 Grid.Row="0"
                 x:Name="KneeboardImageSlider"
                 Minimum="50"
-                Maximum="500"
+                Maximum="100"
                 TickFrequency="5"
                 IsSnapToTickEnabled="True"
                 TickPlacement="None"
@@ -34,6 +35,7 @@
                 Grid.Row="1"
                 x:Name="KneeboardPlateList"
                 AllowDrop="True"
+                PreviewMouseWheel="KneeboardPlateList_PreviewMouseWheel"
                 ItemsSource="{Binding ElementName=root, Path=Plates}"
                 SelectedItem="{Binding ElementName=root, Path=SelectedPlate}"
             >

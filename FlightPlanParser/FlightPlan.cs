@@ -15,6 +15,8 @@ namespace FlightPlanParser
       public double CruisingAlt { get; set; }
       public string DepartureID { get; set; }
       public string DestinationID { get; set; }
+      public string DepartureName { get; set; }
+      public string ArrivalName { get; set; }
       public ObservableCollection<ATCWaypoint> _waypoints = new ObservableCollection<ATCWaypoint>();
       #endregion
 

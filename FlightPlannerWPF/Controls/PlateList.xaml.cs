@@ -20,6 +20,12 @@ namespace FlightPlannerWPF.Controls
    /// </summary>
    public partial class PlateList : UserControl
    {
+      public bool StartExpanded
+      {
+         get { return (bool)GetValue(StartExpandedProperty); }
+         set { SetValue(StartExpandedProperty, value); }
+      }
+
       public string Title
       {
          get { return (string)GetValue(TitleProperty); }
@@ -32,24 +38,11 @@ namespace FlightPlannerWPF.Controls
          set { SetValue(ExpandDirectionProperty, value); }
       }
 
-      // Using a DependencyProperty as the backing store for ExpandDirection.  This enables animation, styling, binding, etc...
-      public static readonly DependencyProperty ExpandDirectionProperty =
-          DependencyProperty.Register("ExpandDirection", typeof(ExpandDirection), typeof(PlateList), new PropertyMetadata(ExpandDirection.Down));
-
-
-      // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
-      public static readonly DependencyProperty TitleProperty =
-          DependencyProperty.Register("Title", typeof(string), typeof(PlateList), new PropertyMetadata(null));
-
       public ObservableCollection<Plate> Plates
       {
          get { return (ObservableCollection<Plate>)GetValue(PlatesProperty); }
          set { SetValue(PlatesProperty, value); }
       }
-
-      // Using a DependencyProperty as the backing store for Plates.  This enables animation, styling, binding, etc...
-      public static readonly DependencyProperty PlatesProperty =
-          DependencyProperty.Register("Plates", typeof(ObservableCollection<Plate>), typeof(PlateList), new PropertyMetadata(null));
 
       public Plate SelectedPlate
       {
@@ -57,13 +50,95 @@ namespace FlightPlannerWPF.Controls
          set { SetValue(SelectedPlateProperty, value); }
       }
 
+      // Using a DependencyProperty as the backing store for StartExpanded.  This enables animation, styling, binding, etc...
+      public static readonly DependencyProperty StartExpandedProperty =
+          DependencyProperty.Register("StartExpanded", typeof(bool), typeof(PlateList), new PropertyMetadata(false));
+
+      // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
+      public static readonly DependencyProperty TitleProperty =
+          DependencyProperty.Register("Title", typeof(string), typeof(PlateList), new PropertyMetadata(null));
+
+      // Using a DependencyProperty as the backing store for ExpandDirection.  This enables animation, styling, binding, etc...
+      public static readonly DependencyProperty ExpandDirectionProperty =
+          DependencyProperty.Register("ExpandDirection", typeof(ExpandDirection), typeof(PlateList), new PropertyMetadata(ExpandDirection.Down));
+
+      // Using a DependencyProperty as the backing store for Plates.  This enables animation, styling, binding, etc...
+      public static readonly DependencyProperty PlatesProperty =
+          DependencyProperty.Register("Plates", typeof(ObservableCollection<Plate>), typeof(PlateList), new PropertyMetadata(null));
+
       // Using a DependencyProperty as the backing store for SelectedPlate.  This enables animation, styling, binding, etc...
       public static readonly DependencyProperty SelectedPlateProperty =
           DependencyProperty.Register("SelectedPlate", typeof(Plate), typeof(PlateList), new PropertyMetadata(null));
 
+      private double PrevValue;
       public PlateList()
       {
          InitializeComponent();
+      }
+
+      private void KneeboardPlateList_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
+      {
+         if (e.NewValue > PrevValue)
+         {
+            var currentIndex = Plates.IndexOf(SelectedPlate);
+            if (currentIndex < Plates.Count - 1)
+            {
+               SelectedPlate = Plates[currentIndex + 1];
+            }
+         }
+         else if (e.NewValue < PrevValue)
+         {
+            var currentIndex = Plates.IndexOf(SelectedPlate);
+            if (currentIndex > 0)
+            {
+               SelectedPlate = Plates[currentIndex - 1];
+            }
+         }
+         PrevValue = e.NewValue;
+      }
+
+      private void KneeboardPlateList_ScrollChanged(object sender, ScrollChangedEventArgs e)
+      {
+         if (e.HorizontalOffset > PrevValue)
+         {
+            var currentIndex = Plates.IndexOf(SelectedPlate);
+            if (currentIndex < Plates.Count - 1)
+            {
+               SelectedPlate = Plates[currentIndex + 1];
+            }
+         }
+         else if (e.HorizontalOffset < PrevValue)
+         {
+            var currentIndex = Plates.IndexOf(SelectedPlate);
+            if (currentIndex > 0)
+            {
+               SelectedPlate = Plates[currentIndex - 1];
+            }
+         }
+         KneeboardPlateList.ScrollIntoView(SelectedPlate);
+         PrevValue = e.HorizontalOffset;
+      }
+
+      private void KneeboardPlateList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+      {
+         if (e.Delta < 0)
+         {
+            var currentIndex = Plates.IndexOf(SelectedPlate);
+            if (currentIndex < Plates.Count - 1)
+            {
+               SelectedPlate = Plates[currentIndex + 1];
+            }
+         }
+         else if (e.Delta > 0)
+         {
+            var currentIndex = Plates.IndexOf(SelectedPlate);
+            if (currentIndex > 0)
+            {
+               SelectedPlate = Plates[currentIndex - 1];
+            }
+         }
+         KneeboardPlateList.ScrollIntoView(SelectedPlate);
+         //PrevValue = e.D;
       }
    }
 }

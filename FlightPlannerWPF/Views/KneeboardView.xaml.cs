@@ -20,6 +20,7 @@ namespace FlightPlannerWPF.Views
    /// </summary>
    public partial class KneeboardView : UserControl
    {
+      private bool ImageRotateState { get; set; } = false;
       public KneeboardView()
       {
          var VM = new KneeboardViewModel();
@@ -37,6 +38,19 @@ namespace FlightPlannerWPF.Views
          else
          {
             SelectedPlateImage.Source = null;
+         }
+      }
+
+      private void FlipPlate_Click(object sender, RoutedEventArgs e)
+      {
+         ImageRotateState = !ImageRotateState;
+         if (ImageRotateState)
+         {
+            SelectedPlateImage.RenderTransform = new RotateTransform(90);
+         }
+         else
+         {
+            SelectedPlateImage.RenderTransform = new RotateTransform(0);
          }
       }
    }

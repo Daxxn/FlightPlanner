@@ -74,7 +74,8 @@ namespace FlightPlannerWPF.ViewModels
             InitialDirectory = Config.GetValue<string>("DefaultFlightPlanFolder"),
             AddExtension = false,
             Multiselect = false,
-            Title = "Open Flight Plan"
+            Title = "Open Flight Plan",
+            Filter = "PLN|*.PLN|All|*.*"
          };
 
          if (browser.ShowDialog() == true)
@@ -112,7 +113,7 @@ namespace FlightPlannerWPF.ViewModels
             var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
             if (currentIndex > 0)
             {
-               KneeBoard.CustomPlateList.Move(currentIndex, currentIndex--);
+               KneeBoard.CustomPlateList.Move(currentIndex, currentIndex - 1);
             }
          }
       }
@@ -126,7 +127,7 @@ namespace FlightPlannerWPF.ViewModels
             var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
             if (currentIndex < KneeBoard.CustomPlateList.Count - 1)
             {
-               KneeBoard.CustomPlateList.Move(currentIndex, currentIndex++);
+               KneeBoard.CustomPlateList.Move(currentIndex, currentIndex + 1);
             }
          }
       }
