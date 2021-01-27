@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MVVMLibrary;
-using PlateEditorWPF.Models;
+using FlightPlannerWPF.Models;
 using PlateModelLibrary;
 using System;
 using System.Collections.Generic;

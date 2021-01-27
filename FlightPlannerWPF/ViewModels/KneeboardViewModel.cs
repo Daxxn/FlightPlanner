@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using FlightPlannerWPF.Events;
+using System.Collections.ObjectModel;
 
 namespace FlightPlannerWPF.ViewModels
 {
@@ -17,6 +18,7 @@ namespace FlightPlannerWPF.ViewModels
       private readonly IConfiguration Config = MainViewModel.Config;
 
       public event EventHandler<ImageUpdateEventArgs> UpdateImage;
+      public static event EventHandler SelectedWaypointChanged;
 
       #region private props
       private string _currentFilePath;
@@ -25,12 +27,18 @@ namespace FlightPlannerWPF.ViewModels
       private KneeBoard _kneeboard;
 
       private Plate _selectedPlate;
+      private ATCWaypoint _selectedWaypoint;
       #endregion
 
       #region Commands
       public Command OpenFlightPlanCmd { get; private set; }
       public Command PrevPlateCmd { get; private set; }
       public Command NextPlateCmd { get; private set; }
+
+      public Command AddCustomCmd { get; private set; }
+      public Command RemCustomCmd { get; private set; }
+      public Command MoveSelectedUpCmd { get; private set; }
+      public Command MoveSelectedDownCmd { get; private set; }
       #endregion
       #endregion
 
@@ -40,6 +48,10 @@ namespace FlightPlannerWPF.ViewModels
          OpenFlightPlanCmd = new Command(OpenFlightPlan);
          PrevPlateCmd = new Command(PrevPlate);
          NextPlateCmd = new Command(NextPlate);
+         AddCustomCmd = new Command(AddToCustom);
+         RemCustomCmd = new Command(DelFromCustom);
+         MoveSelectedUpCmd = new Command(MoveSelectedUp);
+         MoveSelectedDownCmd = new Command(MoveSelectedDown);
       }
       #endregion
 
@@ -90,10 +102,59 @@ namespace FlightPlannerWPF.ViewModels
             SelectedPlate = KneeBoard.Plates[SelectedPlateIndex + 1];
          }
       }
+
+      private void MoveSelectedUp(object p)
+      {
+         if (SelectedPlate is null || KneeBoard is null || KneeBoard.CustomPlateList is null) return;
+
+         if (KneeBoard.CustomPlateList.Contains(SelectedPlate))
+         {
+            var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
+            if (currentIndex > 0)
+            {
+               KneeBoard.CustomPlateList.Move(currentIndex, currentIndex--);
+            }
+         }
+      }
+
+      private void MoveSelectedDown(object p)
+      {
+         if (SelectedPlate is null || KneeBoard is null || KneeBoard.CustomPlateList is null) return;
+
+         if (KneeBoard.CustomPlateList.Contains(SelectedPlate))
+         {
+            var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
+            if (currentIndex < KneeBoard.CustomPlateList.Count - 1)
+            {
+               KneeBoard.CustomPlateList.Move(currentIndex, currentIndex++);
+            }
+         }
+      }
+
+      private void AddToCustom(object p)
+      {
+         if (SelectedPlate is null || KneeBoard is null) return;
+         if (KneeBoard.CustomPlateList is null) KneeBoard.CustomPlateList = new ObservableCollection<Plate>();
+
+         if (!KneeBoard.CustomPlateList.Contains(SelectedPlate))
+         {
+            KneeBoard.CustomPlateList.Add(SelectedPlate);
+         }
+      }
+
+      private void DelFromCustom(object p)
+      {
+         if (SelectedPlate is null || KneeBoard is null) return;
+         if (KneeBoard.CustomPlateList is null) KneeBoard.CustomPlateList = new ObservableCollection<Plate>();
+
+         if (KneeBoard.CustomPlateList.Contains(SelectedPlate))
+         {
+            KneeBoard.CustomPlateList.Remove(SelectedPlate);
+         }
+      }
       #endregion
 
       #region - Full Properties
-
       public string CurrentFilePath
       {
          get { return _currentFilePath; }
@@ -148,6 +209,7 @@ namespace FlightPlannerWPF.ViewModels
             UpdateImage?.Invoke(this, new ImageUpdateEventArgs(value?.PlateFile));
          }
       }
+
       public int SelectedPlateIndex
       {
          get
@@ -160,6 +222,17 @@ namespace FlightPlannerWPF.ViewModels
             {
                return 0;
             }
+         }
+      }
+
+      public ATCWaypoint SelectedWaypoint
+      {
+         get { return _selectedWaypoint; }
+         set
+         {
+            _selectedWaypoint = value;
+            OnPropertyChanged();
+            SelectedWaypointChanged?.Invoke(this, null);
          }
       }
       #endregion

@@ -27,6 +27,9 @@
             <TabItem Header="Plate Browser">
                 <views:PlateBrowserView/>
             </TabItem>
+            <TabItem Header="Plate Editor">
+                <views:PlateEditorView/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

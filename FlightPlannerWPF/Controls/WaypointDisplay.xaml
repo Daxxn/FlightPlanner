@@ -1,0 +1,139 @@
+﻿<UserControl x:Class="FlightPlannerWPF.Controls.WaypointDisplay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightPlannerWPF.Controls"
+             mc:Ignorable="d"
+             x:Name="root">
+    <Border>
+        <Grid Grid.IsSharedSizeScope="True">
+            <Grid Style="{DynamicResource IsArrival}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2">Arrival</TextBlock>
+
+                <TextBlock Grid.Row="1">Name</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ArrivalFP}"/>
+                <TextBlock Grid.Row="2">ICAO ID</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ICAO.ICAOIdent}"/>
+                <TextBlock Grid.Row="3">Max Speed</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.SpeedMaxFP}"/>
+                <TextBlock Grid.Row="4">Max Alt</TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.Alt1FP}"/>
+                <TextBlock Grid.Row="5" ToolTip="Altitude Instruction">Alt Inst</TextBlock>
+                <TextBlock Grid.Row="5" Grid.Column="1" ToolTip="Altitude Instruction" Text="{Binding ElementName=root, Path=Waypoint.AltDescFP}"/>
+            </Grid>
+
+            <Grid Style="{DynamicResource IsDeparture}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2">Arrival</TextBlock>
+
+                <TextBlock Grid.Row="1">Name</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.DepartureFP}"/>
+                <TextBlock Grid.Row="2">ICAO ID</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ICAO.ICAOIdent}"/>
+                <TextBlock Grid.Row="3">Max Speed</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.SpeedMaxFP}"/>
+                <TextBlock Grid.Row="4">Max Alt</TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.Alt1FP}"/>
+                <TextBlock Grid.Row="5" ToolTip="Altitude Instruction">Alt Inst</TextBlock>
+                <TextBlock Grid.Row="5" Grid.Column="1" ToolTip="Altitude Instruction" Text="{Binding ElementName=root, Path=Waypoint.AltDescFP}"/>
+            </Grid>
+
+            <Grid Style="{DynamicResource IsAirport}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition SharedSizeGroup="A"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Column="0" Grid.ColumnSpan="2">Airport</TextBlock>
+
+                <TextBlock Grid.Row="1">ID</TextBlock>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ICAO.ICAOIdent}"/>
+                <TextBlock Grid.Row="2">Approach</TextBlock>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.ApproachTypeFP}"/>
+                <TextBlock Grid.Row="3">Runway #</TextBlock>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.RunwayNumberFP}"/>
+                <TextBlock Grid.Row="4">Runway Des</TextBlock>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ElementName=root, Path=Waypoint.RunwayDesignatorFP}"/>
+            </Grid>
+
+            <Grid.Resources>
+                <Style TargetType="Grid" x:Key="IsArrival">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Airport">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Departure">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Arrival">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="Grid" x:Key="IsDeparture">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Airport">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Departure">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Arrival">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+                <Style TargetType="Grid" x:Key="IsAirport">
+                    <Setter Property="Visibility" Value="Hidden"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Airport">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Departure">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding ElementName=root, Path=DisplayType, Mode=OneWay}" Value="Arrival">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Resources>
+        </Grid>
+    </Border>
+</UserControl>

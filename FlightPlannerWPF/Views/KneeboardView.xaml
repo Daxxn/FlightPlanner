@@ -33,6 +33,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
                     <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
@@ -59,7 +60,12 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="0">Waypoints</TextBlock>
-                            <ListView Grid.Row="1" x:Name="FlightPlanList" ItemsSource="{Binding Path=FlightPlan.Waypoints}">
+                            <ListView
+                                Grid.Row="1"
+                                x:Name="FlightPlanList"
+                                ItemsSource="{Binding Path=FlightPlan.Waypoints}"
+                                SelectedItem="{Binding Path=SelectedWaypoint}"
+                            >
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <WrapPanel Orientation="Vertical"/>
@@ -79,6 +85,8 @@
                             </ListView>
                         </Grid>
                     </Border>
+
+                    <controls:WaypointDisplay Grid.Row="2" Waypoint="{Binding Path=SelectedWaypoint, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
                 </Grid>
             </Border>
         </Expander>
@@ -87,6 +95,9 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="5"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -98,16 +109,42 @@
                     SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 />
 
+                <Border Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Command="{Binding Path=MoveSelectedUpCmd}" Grid.Column="0">
+                            <Image Width="20" Source="\Images\LeftArrow.png"/>
+                        </Button>
+                        <Button Command="{Binding Path=AddCustomCmd}" Grid.Column="1">
+                            Add
+                        </Button>
+                        <Button Command="{Binding Path=RemCustomCmd}" Grid.Column="2">
+                            Delete
+                        </Button>
+                        <Button Command="{Binding Path=MoveSelectedDownCmd}" Grid.Column="3">
+                            <Image Width="20" Source="\Images\RightArrow.png"/>
+                        </Button>
+                    </Grid>
+                </Border>
+
                 <controls:PlateList
-                    Grid.Row="0"
-                    Title="Flight Plan"
-                    Plates="{Binding Path=KneeBoard.Plates}"
+                    Grid.Row="2"
+                    Title="Custom Plates"
+                    Plates="{Binding Path=KneeBoard.CustomPlateList}"
                     SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 />
 
-                <Image Grid.Row="1" Name="SelectedPlateImage" Stretch="Uniform"/>
+                <GridSplitter Grid.Row="3" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                <Border Grid.Row="2">
+                <Image Grid.Row="4" Name="SelectedPlateImage" Stretch="Uniform"/>
+
+                <Border Grid.Row="5">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

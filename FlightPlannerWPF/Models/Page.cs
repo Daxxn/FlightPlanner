@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace PlateEditorWPF.Models
+namespace FlightPlannerWPF.Models
 {
    /// <summary>
    /// Controls a large list of items with the page design principle.
