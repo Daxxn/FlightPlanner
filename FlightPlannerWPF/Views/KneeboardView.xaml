@@ -11,10 +11,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Column="0" Grid.ColumnSpan="3">
+        <Border Grid.Column="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -27,85 +28,95 @@
             </Grid>
         </Border>
 
-        <Expander ExpandDirection="Down" Header="Waypoints" Grid.Row="1">
+        <Border Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource DepArrBorder}">
+                    <Grid Grid.IsSharedSizeScope="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="titleA"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition SharedSizeGroup="titleB"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Departing</TextBlock>
+                        <TextBlock Grid.Column="1" Style="{StaticResource FlightPlanValue}" Text="{Binding Path=FlightPlan.DepartureID}"/>
+
+                        <TextBlock Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Departure</TextBlock>
+                        <TextBlock Grid.Column="3" Style="{StaticResource FlightPlanValue}" Text="{Binding Path=KneeBoard.DepartureSID}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource DepArrBorder}">
+                    <Grid Grid.IsSharedSizeScope="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="titleA"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition SharedSizeGroup="titleB"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Arriving</TextBlock>
+                        <TextBlock Grid.Column="1" Style="{StaticResource FlightPlanValue}" Text="{Binding Path=FlightPlan.DestinationID}"/>
+
+                        <TextBlock Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arrival</TextBlock>
+                        <TextBlock Grid.Column="3" Style="{StaticResource FlightPlanValue}" Text="{Binding Path=KneeBoard.ArrivalSTAR}"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Expander
+            ExpandDirection="Down"
+            Header="Waypoints"
+            Grid.Row="2"
+        >
             <Border>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <Grid Grid.Row="0" Grid.IsSharedSizeScope="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="A"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition SharedSizeGroup="B"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <TextBlock Grid.Row="0" Grid.ColumnSpan="4" Text="{Binding Path=FlightPlan.Title}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Departing</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=FlightPlan.DepartureID}" Style="{StaticResource FlightPlanValue}"/>
-                        <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arriving</TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Path=FlightPlan.DestinationID}" Style="{StaticResource FlightPlanValue}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Departure SID</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=KneeBoard.DepartureSID}" Style="{StaticResource FlightPlanValue}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arrival STAR</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=KneeBoard.ArrivalSTAR}" Style="{StaticResource FlightPlanValue}"/>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Rule Type</TextBlock>
-                        <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=FlightPlan.FPType}" Style="{StaticResource FlightPlanValue}"/>
-                    </Grid>
-
-                    <Border Grid.Row="1" Padding="0,10,0,0">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0">Waypoints</TextBlock>
-                            <ListView
-                                Grid.Row="1"
-                                x:Name="FlightPlanList"
-                                ItemsSource="{Binding Path=FlightPlan.Waypoints}"
-                                SelectedItem="{Binding Path=SelectedWaypoint}"
-                            >
-                                <ListView.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Vertical"/>
-                                    </ItemsPanelTemplate>
-                                </ListView.ItemsPanel>
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBlock Text="{Binding Path=ICAO.ICAOIdent, Converter={StaticResource WPConverter}}" Margin="0,0,10,0"/>
-                                            <TextBlock Grid.Column="1" Text="{Binding Path=DepartureFP}" Visibility="{Binding Path=DepartureFP, Converter={StaticResource VisibleNullConverter}}"/>
-                                            <TextBlock Grid.Column="1" Text="{Binding Path=ArrivalFP}" Visibility="{Binding Path=ArrivalFP, Converter={StaticResource VisibleNullConverter}}"/>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
-                        </Grid>
+                    <Border Grid.Row="0" Padding="0,0,0,10">
+                        <ListView
+                            Grid.Row="1"
+                            x:Name="FlightPlanList"
+                            ItemsSource="{Binding Path=FlightPlan.Waypoints}"
+                            SelectedItem="{Binding Path=SelectedWaypoint}"
+                        >
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Path=ICAO.ICAOIdent, Converter={StaticResource WPConverter}}" Margin="0,0,10,0"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Path=DepartureFP}" Visibility="{Binding Path=DepartureFP, Converter={StaticResource VisibleNullConverter}}"/>
+                                        <TextBlock Grid.Column="1" Text="{Binding Path=ArrivalFP}" Visibility="{Binding Path=ArrivalFP, Converter={StaticResource VisibleNullConverter}}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </Border>
 
-                    <controls:WaypointDisplay Grid.Row="2" Waypoint="{Binding Path=SelectedWaypoint, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
+                    <controls:WaypointDisplay Grid.Row="1" Waypoint="{Binding Path=SelectedWaypoint, Mode=OneWay, NotifyOnSourceUpdated=True}"/>
                 </Grid>
             </Border>
         </Expander>
 
-        <Border Grid.Row="2">
+        <Border Grid.Row="3">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -133,16 +144,32 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Button Command="{Binding Path=MoveSelectedUpCmd}" Grid.Column="0">
+                        <Button
+                            Grid.Column="0"
+                            Command="{Binding Path=MoveSelectedUpCmd}"
+                            Style="{StaticResource PlateButton}"
+                        >
                             <Image Width="20" Source="\Images\LeftArrow.png"/>
                         </Button>
-                        <Button Command="{Binding Path=AddCustomCmd}" Grid.Column="1">
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding Path=AddCustomCmd}"
+                            Style="{StaticResource PlateButton}"
+                        >
                             Add
                         </Button>
-                        <Button Command="{Binding Path=RemCustomCmd}" Grid.Column="2">
+                        <Button
+                            Grid.Column="2"
+                            Command="{Binding Path=RemCustomCmd}"
+                            Style="{StaticResource PlateButton}"
+                        >
                             Delete
                         </Button>
-                        <Button Command="{Binding Path=MoveSelectedDownCmd}" Grid.Column="3">
+                        <Button
+                            Grid.Column="3"
+                            Command="{Binding Path=MoveSelectedDownCmd}"
+                            Style="{StaticResource PlateButton}"
+                        >
                             <Image Width="20" Source="\Images\RightArrow.png"/>
                         </Button>
                     </Grid>

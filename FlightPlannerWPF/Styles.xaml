@@ -3,26 +3,47 @@
 
     <Style TargetType="Button">
         <Setter Property="Background" Value="#93d0ff"/>
-        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Padding" Value="4,2"/>
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Padding" Value="1"/>
     </Style>
     
     <Style TargetType="TextBlock" x:Key="FlightPlanTitle">
         <Setter Property="Padding" Value="4,0,10,0"/>
         <Setter Property="Margin" Value="0,2,0,2"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
     </Style>
     <Style TargetType="TextBlock" x:Key="FlightPlanValue">
         <Setter Property="Background" Value="AliceBlue"/>
+        <Setter Property="MinWidth" Value="50"/>
         <Setter Property="Margin" Value="0,2,0,2"/>
     </Style>
 
     <Style TargetType="Button" x:Key="PrevNextButton">
         <Setter Property="Background" Value="#86bde6"/>
-        <Setter Property="Padding" Value="6"/>
-        <Setter Property="MaxWidth" Value="200"/>
+        <Setter Property="MinWidth" Value="100"/>
+        <Setter Property="Padding" Value="0,2"/>
+        <Setter Property="Margin" Value="8,2"/>
+    </Style>
+
+    <Style TargetType="Button" x:Key="PlateButton">
+        <Setter Property="Background" Value="#93d0ff"/>
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Margin" Value="1,2"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
 
     <Style TargetType="Border" x:Key="PrevNextBorder">
-        <Setter Property="Padding" Value="6"/>
+        <Setter Property="Padding" Value="0,4"/>
+    </Style>
+
+    <Style TargetType="Border" x:Key="DepArrBorder" BasedOn="{StaticResource PrevNextBorder}">
+        <Setter Property="BorderBrush" Value="#5d99de"/>
+        <!--<Setter Property="Background" Value="#c4d6ff"/>-->
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Margin" Value="4"/>
     </Style>
     
     <Style TargetType="TextBlock" x:Key="TitleBlock">
