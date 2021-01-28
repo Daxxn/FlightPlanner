@@ -5,23 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FlightPlannerWPF.Views"
              xmlns:controls="clr-namespace:FlightPlannerWPF.Controls"
-             xmlns:converters="clr-namespace:FlightPlannerWPF.Converters"
              mc:Ignorable="d" Background="White"
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <converters:WaypointConverter x:Key="WPConverter"/>
-        
-        <!--#region Styles-->
-        <Style TargetType="TextBlock" x:Key="FlightPlanTitle">
-            <Setter Property="Padding" Value="4,0,10,0"/>
-            <Setter Property="Margin" Value="0,2,0,2"/>
-        </Style>
-        <Style TargetType="TextBlock" x:Key="FlightPlanValue">
-            <Setter Property="Background" Value="AliceBlue"/>
-            <Setter Property="Margin" Value="0,2,0,2"/>
-        </Style>
-        <!--#endregion-->
-    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -43,7 +28,7 @@
         </Border>
 
         <Expander ExpandDirection="Down" Header="Waypoints" Grid.Row="1">
-            <Border BorderBrush="Blue" BorderThickness="2">
+            <Border>
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -72,7 +57,7 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=FlightPlan.DepartureID}" Style="{StaticResource FlightPlanValue}"/>
                         <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arriving</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Path=FlightPlan.DestinationID}" Style="{StaticResource FlightPlanValue}"/>
-                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Departure STAR</TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Departure SID</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=FlightPlan.DepartureName}" Style="{StaticResource FlightPlanValue}"/>
                         <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arrival STAR</TextBlock>
                         <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=FlightPlan.ArrivalName}" Style="{StaticResource FlightPlanValue}"/>
@@ -134,7 +119,7 @@
                     Plates="{Binding Path=KneeBoard.Plates}"
                     SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 />
-                
+
                 <!--<GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
 
                 <Border Grid.Row="1">
@@ -161,60 +146,32 @@
                     </Grid>
                 </Border>
 
-                <!--<Border Grid.Row="2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="5"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <ListView
-                            x:Name="CustomPlateList"
-                            AllowDrop="True"
-                            ItemsSource="{Binding Path=KneeBoard.CustomPlateList}"
-                            SelectedItem="{Binding Path=SelectedPlate}"
-                        >
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <WrapPanel Orientation="Horizontal"/>
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Image
-                                        Grid.Row="2"
-                                        Source="{Binding Path=PlateFile}"
-                                        Height="{Binding ElementName=CustomPlateList, Path=ActualHeight}"
-                                    />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
-                        
-                        <GridSplitter Grid.Column="1" ResizeDirection="Columns" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-
-                        <Grid Grid.Column="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Image Name="SelectedPlateImage" Stretch="Uniform" RenderTransformOrigin="0.5,0.5"/>
-                            <Button Grid.Row="1" Click="FlipPlate_Click">Rotate</Button>
-                        </Grid>
-                    </Grid>
-                </Border>-->
-
                 <Border Grid.Row="2">
                     <Grid>
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="5"/>
+                            <RowDefinition Height="6"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+
+                        <Border Style="{StaticResource PrevNextBorder}">
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0" Style="{StaticResource PrevNextButton}" Command="{Binding Path=PrevPlateCmd}">Prev Plate</Button>
+                                <Button Grid.Column="1" Style="{StaticResource PrevNextButton}" Command="{Binding Path=NextPlateCmd}">Next Plate</Button>
+                            </Grid>
+                        </Border>
+
                         <ListView
                             x:Name="CustomPlateList"
                             AllowDrop="True"
                             ItemsSource="{Binding Path=KneeBoard.CustomPlateList}"
-                            SelectedItem="{Binding Path=SelectedCustomPlate}"
+                            SelectedItem="{Binding Path=SelectedCustomPlate}" Grid.Row="1"
                         >
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
@@ -232,9 +189,9 @@
                             </ListView.ItemTemplate>
                         </ListView>
 
-                        <GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        <GridSplitter Grid.Row="2" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
-                        <Grid Grid.Row="2">
+                        <Grid Grid.Row="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="Auto"/>

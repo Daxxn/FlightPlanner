@@ -91,17 +91,17 @@ namespace FlightPlannerWPF.ViewModels
 
       private void PrevPlate(object p)
       {
-         if (SelectedPlateIndex > 0)
+         if (SelectedCustomPlateIndex > 0)
          {
-            SelectedPlate = KneeBoard.Plates[SelectedPlateIndex - 1];
+            SelectedCustomPlate = KneeBoard.CustomPlateList[SelectedCustomPlateIndex - 1];
          }
       }
 
       private void NextPlate(object p)
       {
-         if (SelectedPlateIndex < KneeBoard.Plates.Count - 1)
+         if (SelectedCustomPlateIndex < KneeBoard.CustomPlateList.Count - 1)
          {
-            SelectedPlate = KneeBoard.Plates[SelectedPlateIndex + 1];
+            SelectedCustomPlate = KneeBoard.CustomPlateList[SelectedCustomPlateIndex + 1];
          }
       }
 
