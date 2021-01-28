@@ -217,31 +217,6 @@ namespace PlateModelLibrary
          }
       }
 
-      public ObservableCollection<Plate> FlightPlanPlates
-      {
-         get
-         {
-            var list = new List<Plate>();
-            if (DepartureAPDiagram != null)
-            {
-               list.Add(DepartureAPDiagram);
-            }
-            if (DeparturePlates != null)
-            {
-               list.AddRange(DeparturePlates);
-            }
-            if (ArrivalPlates != null)
-            {
-               list.AddRange(ArrivalPlates);
-            }
-            if (DestinationAPDiagram != null)
-            {
-               list.Add(DestinationAPDiagram);
-            }
-            return new ObservableCollection<Plate>(list);
-         }
-      }
-
       public ObservableCollection<Plate> CustomPlateList
       {
          get { return _customPlateList; }

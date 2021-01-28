@@ -27,6 +27,7 @@ namespace FlightPlannerWPF.ViewModels
       private KneeBoard _kneeboard;
 
       private Plate _selectedPlate;
+      private Plate _selectedCustomPlate;
       private ATCWaypoint _selectedWaypoint;
       #endregion
 
@@ -106,11 +107,11 @@ namespace FlightPlannerWPF.ViewModels
 
       private void MoveSelectedUp(object p)
       {
-         if (SelectedPlate is null || KneeBoard is null || KneeBoard.CustomPlateList is null) return;
+         if (SelectedCustomPlate is null || KneeBoard is null || KneeBoard.CustomPlateList is null) return;
 
-         if (KneeBoard.CustomPlateList.Contains(SelectedPlate))
+         if (KneeBoard.CustomPlateList.Contains(SelectedCustomPlate))
          {
-            var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
+            var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedCustomPlate);
             if (currentIndex > 0)
             {
                KneeBoard.CustomPlateList.Move(currentIndex, currentIndex - 1);
@@ -120,11 +121,11 @@ namespace FlightPlannerWPF.ViewModels
 
       private void MoveSelectedDown(object p)
       {
-         if (SelectedPlate is null || KneeBoard is null || KneeBoard.CustomPlateList is null) return;
+         if (SelectedCustomPlate is null || KneeBoard is null || KneeBoard.CustomPlateList is null) return;
 
          if (KneeBoard.CustomPlateList.Contains(SelectedPlate))
          {
-            var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
+            var currentIndex = KneeBoard.CustomPlateList.IndexOf(SelectedCustomPlate);
             if (currentIndex < KneeBoard.CustomPlateList.Count - 1)
             {
                KneeBoard.CustomPlateList.Move(currentIndex, currentIndex + 1);
@@ -145,12 +146,16 @@ namespace FlightPlannerWPF.ViewModels
 
       private void DelFromCustom(object p)
       {
-         if (SelectedPlate is null || KneeBoard is null) return;
+         if (SelectedCustomPlate is null || KneeBoard is null) return;
          if (KneeBoard.CustomPlateList is null) KneeBoard.CustomPlateList = new ObservableCollection<Plate>();
 
-         if (KneeBoard.CustomPlateList.Contains(SelectedPlate))
+         if (KneeBoard.CustomPlateList.Contains(SelectedCustomPlate))
          {
-            KneeBoard.CustomPlateList.Remove(SelectedPlate);
+            KneeBoard.CustomPlateList.Remove(SelectedCustomPlate);
+            if (KneeBoard.CustomPlateList.Count > 0)
+            {
+               SelectedCustomPlate = KneeBoard.CustomPlateList[0];
+            }
          }
       }
       #endregion
@@ -196,6 +201,33 @@ namespace FlightPlannerWPF.ViewModels
          {
             _kneeboard = value;
             OnPropertyChanged();
+         }
+      }
+
+      public Plate SelectedCustomPlate
+      {
+         get { return _selectedCustomPlate; }
+         set
+         {
+            _selectedCustomPlate = value;
+            OnPropertyChanged();
+            OnPropertyChanged(nameof(SelectedCustomPlateIndex));
+            UpdateImage?.Invoke(this, new ImageUpdateEventArgs(value?.PlateFile));
+         }
+      }
+
+      public int SelectedCustomPlateIndex
+      {
+         get
+         {
+            if (SelectedCustomPlate != null && KneeBoard != null)
+            {
+               return KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
+            }
+            else
+            {
+               return 0;
+            }
          }
       }
 

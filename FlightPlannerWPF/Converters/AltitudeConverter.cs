@@ -18,7 +18,7 @@ namespace FlightPlannerWPF.Converters
             }
             else
             {
-               return $"FL{num / 100}";
+               return $"FL{num * 0.001}";
             }
          }
          else

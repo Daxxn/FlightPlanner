@@ -70,53 +70,9 @@ namespace FlightPlannerWPF.Controls
       public static readonly DependencyProperty SelectedPlateProperty =
           DependencyProperty.Register("SelectedPlate", typeof(Plate), typeof(PlateList), new PropertyMetadata(null));
 
-      private double PrevValue;
       public PlateList()
       {
          InitializeComponent();
-      }
-
-      private void KneeboardPlateList_Scroll(object sender, System.Windows.Controls.Primitives.ScrollEventArgs e)
-      {
-         if (e.NewValue > PrevValue)
-         {
-            var currentIndex = Plates.IndexOf(SelectedPlate);
-            if (currentIndex < Plates.Count - 1)
-            {
-               SelectedPlate = Plates[currentIndex + 1];
-            }
-         }
-         else if (e.NewValue < PrevValue)
-         {
-            var currentIndex = Plates.IndexOf(SelectedPlate);
-            if (currentIndex > 0)
-            {
-               SelectedPlate = Plates[currentIndex - 1];
-            }
-         }
-         PrevValue = e.NewValue;
-      }
-
-      private void KneeboardPlateList_ScrollChanged(object sender, ScrollChangedEventArgs e)
-      {
-         if (e.HorizontalOffset > PrevValue)
-         {
-            var currentIndex = Plates.IndexOf(SelectedPlate);
-            if (currentIndex < Plates.Count - 1)
-            {
-               SelectedPlate = Plates[currentIndex + 1];
-            }
-         }
-         else if (e.HorizontalOffset < PrevValue)
-         {
-            var currentIndex = Plates.IndexOf(SelectedPlate);
-            if (currentIndex > 0)
-            {
-               SelectedPlate = Plates[currentIndex - 1];
-            }
-         }
-         KneeboardPlateList.ScrollIntoView(SelectedPlate);
-         PrevValue = e.HorizontalOffset;
       }
 
       private void KneeboardPlateList_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -138,7 +94,6 @@ namespace FlightPlannerWPF.Controls
             }
          }
          KneeboardPlateList.ScrollIntoView(SelectedPlate);
-         //PrevValue = e.D;
       }
    }
 }
