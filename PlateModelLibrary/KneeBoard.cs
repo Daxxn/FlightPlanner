@@ -17,6 +17,8 @@ namespace PlateModelLibrary
       private List<Plate> _departure;
       private ObservableCollection<Plate> _plates;
       private ObservableCollection<Plate> _customPlateList;
+      private string _departureName;
+      private string _arrivalName;
       #endregion
 
       #region - Constructors
@@ -52,6 +54,10 @@ namespace PlateModelLibrary
                {
                   if (wp.DepartureFP != null && wp.ArrivalFP == null)
                   {
+                     if (newKneeboard.DepartureSID is null && !String.IsNullOrEmpty(wp.DepartureFP))
+                     {
+                        newKneeboard.DepartureSID = wp.DepartureFP;
+                     }
                      newKneeboard.DeparturePlates = newKneeboard.Plates.Where(
                         plate => CompareNames(plate.Name, wp.DepartureFP)
                         && plate.Type == PlateType.ArrivalDeparture
@@ -59,39 +65,19 @@ namespace PlateModelLibrary
                   }
                   else if (wp.DepartureFP == null && wp.ArrivalFP != null)
                   {
-                     newKneeboard.ArrivalPlates = newKneeboard.Plates.Where(plate => plate.Name == wp.ArrivalFP).ToList();
+                     if (newKneeboard.ArrivalSTAR is null && !String.IsNullOrEmpty(wp.ArrivalFP))
+                     {
+                        newKneeboard.ArrivalSTAR = wp.ArrivalFP;
+                     }
+                     newKneeboard.ArrivalPlates = newKneeboard.Plates.Where(
+                        plate => plate.Name == wp.ArrivalFP
+                     ).ToList();
                   }
                }
             }
          }
 
          return newKneeboard;
-      }
-
-      private static Plate FindPlate(string value, string propName = "IATACode")
-      {
-         var prop = new Plate().GetType().GetProperty(propName);
-         if (prop is null || prop.PropertyType != typeof(string))
-         {
-            return Plate.AllPlates.Find(plate => plate.IATACode == value);
-         }
-         else
-         {
-            return Plate.AllPlates.Find(plate => prop.GetValue(plate) as string == value);
-         }
-      }
-
-      private static List<Plate> FindPlates(string value, string propName = "IATACode")
-      {
-         var prop = new Plate().GetType().GetProperty(propName);
-         if (prop is null || prop.PropertyType != typeof(string))
-         {
-            return Plate.AllPlates.FindAll(plate => plate.IATACode == value);
-         }
-         else
-         {
-            return Plate.AllPlates.FindAll(plate => prop.GetValue(plate) as string == value);
-         }
       }
 
       private static List<Plate> FindPlatesByAirport(string value)
@@ -203,6 +189,27 @@ namespace PlateModelLibrary
          set
          {
             _arrival = value;
+            OnPropertyChanged();
+         }
+      }
+
+
+      public string DepartureSID
+      {
+         get { return _departureName; }
+         set
+         {
+            _departureName = value;
+            OnPropertyChanged();
+         }
+      }
+
+      public string ArrivalSTAR
+      {
+         get { return _arrivalName; }
+         set
+         {
+            _arrivalName = value;
             OnPropertyChanged();
          }
       }

@@ -9,7 +9,8 @@
             <converters:SpeedConverter x:Key="SpeedConverter"/>
             <converters:AltitudeConverter x:Key="AltConvterter"/>
             <converters:AltitudeDescConverter x:Key="AltDescConverter"/>
-            
+            <converters:VisibilityNullConverter x:Key="VisibleNullConverter"/>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="\Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>

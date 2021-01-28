@@ -7,7 +7,7 @@
         xmlns:views="clr-namespace:FlightPlannerWPF.Views"
         mc:Ignorable="d"
         WindowState="Maximized"
-        Title="MainWindow" Height="800" Width="1000">
+        Title="Flight Planner" Height="800" Width="1000">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

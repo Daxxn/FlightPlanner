@@ -222,7 +222,7 @@ namespace FlightPlannerWPF.ViewModels
          {
             if (SelectedCustomPlate != null && KneeBoard != null)
             {
-               return KneeBoard.CustomPlateList.IndexOf(SelectedPlate);
+               return KneeBoard.CustomPlateList.IndexOf(SelectedCustomPlate);
             }
             else
             {

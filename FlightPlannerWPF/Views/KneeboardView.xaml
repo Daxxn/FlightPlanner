@@ -58,9 +58,9 @@
                         <TextBlock Grid.Row="1" Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arriving</TextBlock>
                         <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Path=FlightPlan.DestinationID}" Style="{StaticResource FlightPlanValue}"/>
                         <TextBlock Grid.Row="2" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Departure SID</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=FlightPlan.DepartureName}" Style="{StaticResource FlightPlanValue}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=KneeBoard.DepartureSID}" Style="{StaticResource FlightPlanValue}"/>
                         <TextBlock Grid.Row="2" Grid.Column="2" Style="{StaticResource FlightPlanTitle}">Arrival STAR</TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=FlightPlan.ArrivalName}" Style="{StaticResource FlightPlanValue}"/>
+                        <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=KneeBoard.ArrivalSTAR}" Style="{StaticResource FlightPlanValue}"/>
                         <TextBlock Grid.Row="3" Grid.Column="0" Style="{StaticResource FlightPlanTitle}">Rule Type</TextBlock>
                         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=FlightPlan.FPType}" Style="{StaticResource FlightPlanValue}"/>
                     </Grid>
@@ -86,11 +86,13 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
-                                            <TextBlock Text="{Binding Path=ICAO.ICAOIdent, Converter={StaticResource WPConverter}}"/>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Path=ICAO.ICAOIdent, Converter={StaticResource WPConverter}}" Margin="0,0,10,0"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=DepartureFP}" Visibility="{Binding Path=DepartureFP, Converter={StaticResource VisibleNullConverter}}"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Path=ArrivalFP}" Visibility="{Binding Path=ArrivalFP, Converter={StaticResource VisibleNullConverter}}"/>
                                         </Grid>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
