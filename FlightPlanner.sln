@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVVMLibrary", "..\..\..\Lib
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlateModelLibrary", "PlateModelLibrary\PlateModelLibrary.csproj", "{6620BEF5-D5AF-4655-834C-2045EAAF6FBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlightPlanParser", "FlightPlanParser\FlightPlanParser.csproj", "{41004103-DC0F-43CB-8FC8-3909D2649994}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightPlanParser", "FlightPlanParser\FlightPlanParser.csproj", "{41004103-DC0F-43CB-8FC8-3909D2649994}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrequencyNotesLibrary", "FrequencyNotesLibrary\FrequencyNotesLibrary.csproj", "{07B21315-C4E6-4F4D-AF55-2348222583E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,6 +52,12 @@ Global
 		{41004103-DC0F-43CB-8FC8-3909D2649994}.Release|Any CPU.Build.0 = Release|Any CPU
 		{41004103-DC0F-43CB-8FC8-3909D2649994}.Release1|Any CPU.ActiveCfg = Release|Any CPU
 		{41004103-DC0F-43CB-8FC8-3909D2649994}.Release1|Any CPU.Build.0 = Release|Any CPU
+		{07B21315-C4E6-4F4D-AF55-2348222583E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07B21315-C4E6-4F4D-AF55-2348222583E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07B21315-C4E6-4F4D-AF55-2348222583E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07B21315-C4E6-4F4D-AF55-2348222583E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07B21315-C4E6-4F4D-AF55-2348222583E1}.Release1|Any CPU.ActiveCfg = Release|Any CPU
+		{07B21315-C4E6-4F4D-AF55-2348222583E1}.Release1|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

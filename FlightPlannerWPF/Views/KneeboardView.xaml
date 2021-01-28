@@ -120,7 +120,6 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
-                    <!--<RowDefinition Height="5"/>-->
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
@@ -132,8 +131,6 @@
                     Plates="{Binding Path=KneeBoard.Plates}"
                     SelectedPlate="{Binding Path=SelectedPlate, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 />
-
-                <!--<GridSplitter Grid.Row="1" ResizeDirection="Rows" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
 
                 <Border Grid.Row="1">
                     <Grid>

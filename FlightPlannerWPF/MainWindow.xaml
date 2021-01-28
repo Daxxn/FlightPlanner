@@ -30,6 +30,9 @@
             <TabItem Header="Plate Editor">
                 <views:PlateEditorView/>
             </TabItem>
+            <TabItem Header="Frequencies">
+                <views:FrequenciesView/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

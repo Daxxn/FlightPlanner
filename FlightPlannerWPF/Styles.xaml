@@ -41,7 +41,6 @@
 
     <Style TargetType="Border" x:Key="DepArrBorder" BasedOn="{StaticResource PrevNextBorder}">
         <Setter Property="BorderBrush" Value="#5d99de"/>
-        <!--<Setter Property="Background" Value="#c4d6ff"/>-->
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Margin" Value="4"/>
     </Style>
@@ -50,5 +49,11 @@
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="FilePathBlock">
+        <Setter Property="Background" Value="AliceBlue"/>
+        <Setter Property="Margin" Value="10,1"/>
+        <Setter Property="Padding" Value="1"/>
     </Style>
 </ResourceDictionary>

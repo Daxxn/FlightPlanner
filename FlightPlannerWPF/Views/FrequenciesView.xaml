@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="FlightPlannerWPF.Views.FrequenciesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FlightPlannerWPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Border Grid.Row="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Command="{Binding Path=OpenFreqCmd}">Open</Button>
+                        <Button Grid.Column="1" Command="{Binding Path=SaveFreqCmd}">Save</Button>
+                        <TextBlock Grid.Column="2" Style="{StaticResource FilePathBlock}" Text="{Binding Path=FreqFileName}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock>Flight Plan</TextBlock>
+                        <TextBlock Grid.Column="1" Style="{StaticResource FilePathBlock}" Text="{Binding Path=FlightPlanFileName}"/>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" Command="{Binding Path=NewFreqCmd}">New</Button>
+                        <Button Grid.Column="1" Command="{Binding Path=DelFreqCmd}">Delete</Button>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </Border>
+        
+        <ListView
+            ItemsSource="{Binding Path=Frequencies}"
+            SelectedItem="{Binding Path=SelectedFreq}"
+            Grid.Row="1"
+        >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox GotFocus="TextBox_GotFocus" MinWidth="200" Text="{Binding Path=Name}"/>
+                        <TextBox GotFocus="TextBox_GotFocus" MinWidth="50" Text="{Binding Path=FreqTop, UpdateSourceTrigger=LostFocus}"/>
+                        <TextBlock>.</TextBlock>
+                        <TextBox GotFocus="TextBox_GotFocus" MinWidth="50" Text="{Binding Path=FreqBottom, UpdateSourceTrigger=LostFocus}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\Libraries\MVVMLibrary\MVVMLibrary\MVVMLibrary.csproj" />
     <ProjectReference Include="..\FlightPlanParser\FlightPlanParser.csproj" />
+    <ProjectReference Include="..\FrequencyNotesLibrary\FrequencyNotesLibrary.csproj" />
     <ProjectReference Include="..\PlateModelLibrary\PlateModelLibrary.csproj" />
   </ItemGroup>
 

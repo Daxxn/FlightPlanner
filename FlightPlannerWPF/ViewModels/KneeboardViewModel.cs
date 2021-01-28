@@ -19,6 +19,7 @@ namespace FlightPlannerWPF.ViewModels
 
       public event EventHandler<ImageUpdateEventArgs> UpdateImage;
       public static event EventHandler SelectedWaypointChanged;
+      public static event EventHandler<string> FileChanged;
 
       #region private props
       private string _currentFilePath;
@@ -169,6 +170,7 @@ namespace FlightPlannerWPF.ViewModels
             _currentFilePath = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(CurrentFileName));
+            FileChanged?.Invoke(this, value);
          }
       }
 
